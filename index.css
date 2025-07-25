@@ -1,0 +1,65 @@
+@import '@mantine/core/styles.css';
+@import url('https://fonts.googleapis.com/css2?family=Figtree:wght@400;500;600;700&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Sour+Gummy:wght@400;500;600;700&display=swap');
+@import url('https://cdn.jsdelivr.net/npm/prismjs@1.29.0/themes/prism-tomorrow.css');
+
+:root {
+  font-synthesis: none;
+  text-rendering: optimizeLegibility;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+#root {
+  margin: auto;
+}
+
+/* GrapesJS Editor Styles */
+.gjs-editor {
+  height: 100% !important;
+}
+
+.gjs-cv-canvas {
+  background: white;
+  width: 100% !important;
+  height: 100% !important;
+  top: 0 !important;
+}
+
+.gjs-pn-panel {
+  background: var(--mantine-color-gray-0);
+}
+
+.gjs-pn-btn {
+  color: var(--mantine-color-gray-7);
+}
+
+.gjs-pn-btn:hover {
+  background: var(--mantine-color-gray-1);
+}
+
+.gjs-blocks-c {
+  background: var(--mantine-color-white);
+}
+
+.gjs-block {
+  border: 1px solid var(--mantine-color-gray-3);
+  border-radius: 4px;
+}
+
+.gjs-block:hover {
+  border-color: var(--mantine-color-primary-4);
+}
+
+/* Custom scrollbar for code viewer */
+.mantine-ScrollArea-scrollbar {
+  background: var(--mantine-color-gray-1);
+}
+
+.mantine-ScrollArea-thumb {
+  background: var(--mantine-color-gray-4);
+}
+
+.mantine-ScrollArea-thumb:hover {
+  background: var(--mantine-color-gray-5);
+}
