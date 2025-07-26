@@ -93,6 +93,23 @@ function TemplateEditorContent({ onNavigateToProjects, onNavigateToProfile, onNa
     }
   }, [selectedTemplate]);
 
+  // Clear editor state on component mount to ensure fresh start after logout/login
+  useEffect(() => {
+    // Check if this is a fresh session (no project to load)
+    const projectToLoad = sessionStorage.getItem('projectToLoad');
+    if (!projectToLoad) {
+      // Clear any persisted editor state
+      localStorage.removeItem('template_editor_state');
+      
+      // Reset Redux state to ensure clean slate
+      dispatch(selectTemplate(''));
+      dispatch(updateEditorContent({ html: '', bodyContent: '', css: '' }));
+      
+      // Reset project name
+      setProjectName("Untitled Project");
+    }
+  }, []); // Run only on mount
+
   const handleNewProject = () => {
     setNewProjectModalOpen(true);
   };
