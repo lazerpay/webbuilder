@@ -2,13 +2,32 @@ import React from 'react';
 
 interface LogoProps {
   size?: number;
+  onClick?: () => void;
 }
 
-export function Logo({ size = 40 }: LogoProps) {
+export function Logo({ size = 40, onClick }: LogoProps) {
   const gradientId = `logo-gradient-${Math.random().toString(36).substr(2, 9)}`;
   
   return (
-    <div style={{ display: 'flex', alignItems: 'center' }}>
+    <div 
+      style={{ 
+        display: 'flex', 
+        alignItems: 'center',
+        cursor: onClick ? 'pointer' : 'default',
+        transition: 'transform 0.2s ease'
+      }}
+      onClick={onClick}
+      onMouseEnter={(e) => {
+        if (onClick) {
+          e.currentTarget.style.transform = 'scale(1.05)';
+        }
+      }}
+      onMouseLeave={(e) => {
+        if (onClick) {
+          e.currentTarget.style.transform = 'scale(1)';
+        }
+      }}
+    >
       <svg 
         width={size} 
         height={size} 

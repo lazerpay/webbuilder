@@ -15,6 +15,30 @@ const theme = createTheme({
       '#3730a3',
       '#312e81'
     ],
+    secondary: [
+      '#faf5ff',
+      '#f3e8ff',
+      '#e9d5ff',
+      '#d8b4fe',
+      '#c084fc',
+      '#a855f7',
+      '#9333ea',
+      '#7c3aed',
+      '#6d28d9',
+      '#5b21b6'
+    ],
+    accent: [
+      '#ecfeff',
+      '#cffafe',
+      '#a5f3fc',
+      '#67e8f9',
+      '#22d3ee',
+      '#06b6d4',
+      '#0891b2',
+      '#0e7490',
+      '#155e75',
+      '#164e63'
+    ],
     gray: [
       '#f8fafc',
       '#f1f5f9',
@@ -32,7 +56,7 @@ const theme = createTheme({
   defaultRadius: 'md',
   fontFamily: 'Figtree, system-ui, sans-serif',
   headings: {
-    fontFamily: 'Figtree, system-ui, sans-serif',
+    fontFamily: 'Space Grotesk, Figtree, system-ui, sans-serif',
     fontWeight: '600'
   }
 });

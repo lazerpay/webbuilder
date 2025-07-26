@@ -1,21 +1,40 @@
 import React from 'react';
-import { Group, Button, Avatar } from '@mantine/core';
-import { Plus, Save } from 'lucide-react';
+import { Group, Button, ActionIcon } from '@mantine/core';
+import { Plus, Save, PanelLeftOpen } from 'lucide-react';
 import { EditableProjectName } from './EditableProjectName';
+import { UserMenu } from './UserMenu';
 import { Logo } from './Logo';
 
 interface HeaderProps {
   onNewProject?: () => void;
   onSaveProject?: () => void;
   onProjectNameChange?: (name: string) => void;
+  onToggleSidebar?: () => void;
+  onProfile?: () => void;
+  onMyProjects?: () => void;
+  onLogOut?: () => void;
+  onLogoClick?: () => void;
   projectName?: string;
+  showSidebarToggle?: boolean;
+  showProjectActions?: boolean;
+  showProjectName?: boolean;
+  saveDisabled?: boolean;
 }
 
 export function Header({ 
   onNewProject, 
   onSaveProject,
   onProjectNameChange, 
-  projectName = "Untitled Project" 
+  onToggleSidebar,
+  onProfile,
+  onMyProjects,
+  onLogOut,
+  onLogoClick,
+  projectName = "Untitled Project",
+  showSidebarToggle = false,
+  showProjectActions = true,
+  showProjectName = true,
+  saveDisabled = false
 }: HeaderProps) {
   return (
     <div 
@@ -32,41 +51,59 @@ export function Header({
       <Group justify="space-between" align="center">
         {/* Left Section */}
         <Group gap="lg" align="center">
-          <Logo size={40} />
-          <div style={{ 
-            width: '1px', 
-            height: '24px', 
-            backgroundColor: 'var(--mantine-color-gray-4)' 
-          }} />
-          <EditableProjectName 
-            initialName={projectName}
-            onNameChange={onProjectNameChange}
-          />
+          {showSidebarToggle && (
+            <ActionIcon
+              variant="subtle"
+              size="lg"
+              onClick={onToggleSidebar}
+              aria-label="Open sidebar"
+            >
+              <PanelLeftOpen size={20} />
+            </ActionIcon>
+          )}
+          <Logo size={40} onClick={onLogoClick} />
+          {showProjectName && (
+            <>
+              <div style={{ 
+                width: '1px', 
+                height: '24px', 
+                backgroundColor: 'var(--mantine-color-gray-4)' 
+              }} />
+              <EditableProjectName 
+                initialName={projectName}
+                onNameChange={onProjectNameChange}
+              />
+            </>
+          )}
         </Group>
 
         {/* Right Section */}
         <Group gap="md" align="center">
-          <Button
-            leftSection={<Save size={16} />}
-            variant="outline"
-            size="sm"
-            onClick={onSaveProject}
-          >
-            Save Project
-          </Button>
-          <Button
-            leftSection={<Plus size={16} />}
-            variant="filled"
-            size="sm"
-            onClick={onNewProject}
-          >
-            New Project
-          </Button>
-          <Avatar 
-            size="md" 
-            radius="xl"
-            src="https://i.pravatar.cc/150?img=1"
-            alt="User Avatar"
+          {showProjectActions && (
+            <>
+              <Button
+                leftSection={<Save size={16} />}
+                variant="outline"
+                size="sm"
+                onClick={onSaveProject}
+                disabled={saveDisabled}
+              >
+                Save Project
+              </Button>
+              <Button
+                leftSection={<Plus size={16} />}
+                variant="filled"
+                size="sm"
+                onClick={onNewProject}
+              >
+                New Project
+              </Button>
+            </>
+          )}
+          <UserMenu 
+            onProfile={onProfile}
+            onMyProjects={onMyProjects}
+            onLogOut={onLogOut}
           />
         </Group>
       </Group>

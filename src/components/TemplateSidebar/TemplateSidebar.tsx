@@ -6,7 +6,11 @@ import { useAppSelector, useAppDispatch } from '../../hooks/redux';
 import { selectTemplate, fetchTemplates, fetchTemplateContent } from '../../store/templateStore';
 import { Template } from '../../services/templateService';
 
-export function TemplateSidebar() {
+interface TemplateSidebarProps {
+  onTemplateSelect?: () => void;
+}
+
+export function TemplateSidebar({ onTemplateSelect }: TemplateSidebarProps) {
   const { 
     templates, 
     selectedTemplate, 
@@ -24,6 +28,10 @@ export function TemplateSidebar() {
   const handleSelectTemplate = (template: Template) => {
     dispatch(selectTemplate(template.id));
     dispatch(fetchTemplateContent(template));
+    // Close sidebar when template is selected
+    if (onTemplateSelect) {
+      onTemplateSelect();
+    }
   };
 
 

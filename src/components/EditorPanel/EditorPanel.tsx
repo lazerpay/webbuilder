@@ -14,12 +14,34 @@ export interface EditorPanelRef {
   getEditor: () => any;
 }
 
-export const EditorPanel = forwardRef<EditorPanelRef>((props, ref) => {
+interface EditorPanelProps {
+  onSelectTemplate?: () => void;
+  onProjectLoad?: (project: any) => void;
+}
+
+export const EditorPanel = forwardRef<EditorPanelRef, EditorPanelProps>(({ onSelectTemplate, onProjectLoad }, ref) => {
   const editorRef = useRef<HTMLDivElement>(null);
   const grapesEditorRef = useRef<any>(null);
   const [isGrapesJSLoaded, setIsGrapesJSLoaded] = useState(false);
   const { selectedTemplate, editorContent } = useAppSelector((state) => state.template);
   const dispatch = useAppDispatch();
+
+  const handleProjectLoad = (project: any) => {
+    // Load the project content into the editor
+    dispatch(updateEditorContent({ 
+      html: project.html, 
+      bodyContent: project.html, 
+      css: project.css 
+    }));
+    
+    // Set a dummy template ID to trigger editor initialization
+    dispatch({ type: 'template/selectTemplate', payload: 'saved-project' });
+    
+    // Notify parent component about project load
+    if (onProjectLoad) {
+      onProjectLoad(project);
+    }
+  };
 
   useImperativeHandle(ref, () => ({
     getEditor: () => grapesEditorRef.current
@@ -60,7 +82,8 @@ export const EditorPanel = forwardRef<EditorPanelRef>((props, ref) => {
 
   // Initialize GrapesJS editor
   useEffect(() => {
-    if (!editorRef.current || !selectedTemplate || !isGrapesJSLoaded) return;
+    if (!editorRef.current || !isGrapesJSLoaded) return;
+    if (!selectedTemplate && !editorContent.bodyContent) return;
 
     // Only initialize if we don't have an editor instance
     if (grapesEditorRef.current) {
@@ -194,10 +217,10 @@ export const EditorPanel = forwardRef<EditorPanelRef>((props, ref) => {
     }
   }, [editorContent.bodyContent, editorContent.css]);
 
-  if (!selectedTemplate) {
+  if (!selectedTemplate && !editorContent.bodyContent) {
     return (
       <Paper h="100%" withBorder>
-        <EmptyState />
+        <EmptyState onSelectTemplate={onSelectTemplate} onProjectLoad={handleProjectLoad} />
       </Paper>
     );
   }

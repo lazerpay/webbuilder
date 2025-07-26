@@ -1,14 +1,23 @@
 import { useState } from 'react';
-import { Modal, TextInput, Button, Stack, Group } from '@mantine/core';
+import { Modal, TextInput, Button, Stack, Group, Alert } from '@mantine/core';
+import { AlertTriangle } from 'lucide-react';
 
-interface NewProjectModalProps {
+interface SaveProjectModalProps {
   opened: boolean;
   onClose: () => void;
   onConfirm: (projectName: string) => void;
+  initialProjectName: string;
+  existingProject?: boolean;
 }
 
-export function NewProjectModal({ opened, onClose, onConfirm }: NewProjectModalProps) {
-  const [projectName, setProjectName] = useState('');
+export function SaveProjectModal({ 
+  opened, 
+  onClose, 
+  onConfirm, 
+  initialProjectName,
+  existingProject = false 
+}: SaveProjectModalProps) {
+  const [projectName, setProjectName] = useState(initialProjectName);
   const [error, setError] = useState('');
 
   const handleConfirm = () => {
@@ -24,16 +33,7 @@ export function NewProjectModal({ opened, onClose, onConfirm }: NewProjectModalP
       return;
     }
 
-    // Check if project already exists in localStorage
-    const storageKey = `template_project_${trimmedName.toLowerCase().replace(/[^a-z0-9]/g, '_')}`;
-    const existingProject = localStorage.getItem(storageKey);
-    
-    if (existingProject) {
-      setError('A project with this name already exists. Please choose a different name.');
-      return;
-    }
-
-    // Also check the saved projects list
+    // Check if the new name already exists
     const savedProjects = JSON.parse(localStorage.getItem('saved_template_projects') || '[]');
     const duplicateProject = savedProjects.find((p: any) => p.name.toLowerCase() === trimmedName.toLowerCase());
     
@@ -47,7 +47,7 @@ export function NewProjectModal({ opened, onClose, onConfirm }: NewProjectModalP
   };
 
   const handleClose = () => {
-    setProjectName('');
+    setProjectName(initialProjectName);
     setError('');
     onClose();
   };
@@ -62,11 +62,21 @@ export function NewProjectModal({ opened, onClose, onConfirm }: NewProjectModalP
     <Modal
       opened={opened}
       onClose={handleClose}
-      title="Create New Project"
+      title="Save Project"
       centered
       size="md"
     >
       <Stack gap="md">
+        {existingProject && (
+          <Alert
+            icon={<AlertTriangle size={16} />}
+            color="yellow"
+            title="Project Already Exists"
+          >
+            A project with the name "{initialProjectName}" already exists. Please choose a different name.
+          </Alert>
+        )}
+        
         <TextInput
           label="Project Name"
           placeholder="Enter your project name"
@@ -75,7 +85,7 @@ export function NewProjectModal({ opened, onClose, onConfirm }: NewProjectModalP
             setProjectName(event.currentTarget.value);
             setError('');
           }}
-          onKeyPress={handleKeyPress}
+          onKeyDown={handleKeyPress}
           error={error}
           autoFocus
           required
@@ -88,11 +98,12 @@ export function NewProjectModal({ opened, onClose, onConfirm }: NewProjectModalP
           >
             Cancel
           </Button>
+          
           <Button
             onClick={handleConfirm}
             disabled={!projectName.trim()}
           >
-            Create Project
+            Save
           </Button>
         </Group>
       </Stack>
