@@ -95,6 +95,7 @@ export function Header({
                 variant="filled"
                 size="sm"
                 onClick={onNewProject}
+                style={{ pointerEvents: 'none', cursor: 'normal' }}
               >
                 New Project
               </Button>
