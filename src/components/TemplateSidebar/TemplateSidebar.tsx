@@ -27,14 +27,27 @@ export function TemplateSidebar({ onTemplateSelect }: TemplateSidebarProps) {
   }, [dispatch]);
 
   const handleSelectTemplate = async (template: Template) => {
-    console.log('Selecting template:', template.name);
+    console.log('=== TEMPLATE SELECTION STARTED ===');
+    console.log('Selecting template:', template.name, template.id);
+    
+    // First select the template
     dispatch(selectTemplate(template.id));
+    console.log('Template selected in Redux store');
     
     // Fetch template content and store in sessionStorage
     try {
+      console.log('Fetching template content...');
       const result = await dispatch(fetchTemplateContent(template));
+      console.log('Fetch result:', result);
+      
       if (fetchTemplateContent.fulfilled.match(result)) {
-        console.log('Template content loaded:', result.payload.content);
+        console.log('Template content loaded successfully:', {
+          templateId: result.payload.templateId,
+          contentKeys: Object.keys(result.payload.content),
+          bodyContentLength: result.payload.content.bodyContent?.length || 0,
+          cssLength: result.payload.content.css?.length || 0
+        });
+        
         // Store template as current project in sessionStorage
         projectService.setCurrentProjectFromTemplate(
           template.id,
@@ -46,10 +59,14 @@ export function TemplateSidebar({ onTemplateSelect }: TemplateSidebarProps) {
           }
         );
         console.log('Template stored in sessionStorage');
+      } else {
+        console.error('Template content fetch was not fulfilled:', result);
       }
     } catch (error) {
       console.error('Error loading template:', error);
     }
+    
+    console.log('=== TEMPLATE SELECTION COMPLETED ===');
     
     // Close sidebar when template is selected
     if (onTemplateSelect) {

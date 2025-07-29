@@ -60,6 +60,193 @@
 	border-color: var(--mantine-color-primary-4);
 }
 
+/* GrapesJS Asset Manager Modal Fixes */
+.gjs-am-modal {
+	background: var(--mantine-color-white) !important;
+	border-radius: 8px !important;
+	box-shadow: var(--mantine-shadow-xl) !important;
+	border: 1px solid var(--mantine-color-gray-3) !important;
+}
+
+.gjs-am-modal .gjs-am-title {
+	background: var(--mantine-color-white) !important;
+	color: var(--mantine-color-gray-9) !important;
+	border-bottom: 1px solid var(--mantine-color-gray-3) !important;
+	padding: 16px 20px !important;
+	font-size: 18px !important;
+	font-weight: 600 !important;
+	font-family: var(--mantine-font-family) !important;
+}
+
+.gjs-am-modal .gjs-am-close {
+	color: var(--mantine-color-gray-6) !important;
+	font-size: 20px !important;
+	padding: 8px !important;
+	border-radius: 4px !important;
+	transition: all 0.2s ease !important;
+}
+
+.gjs-am-modal .gjs-am-close:hover {
+	background: var(--mantine-color-gray-1) !important;
+	color: var(--mantine-color-gray-9) !important;
+}
+
+.gjs-am-modal .gjs-am-content {
+	background: var(--mantine-color-white) !important;
+	padding: 20px !important;
+}
+
+.gjs-am-modal .gjs-am-add-asset {
+	background: var(--mantine-color-primary-6) !important;
+	color: white !important;
+	border: none !important;
+	border-radius: 6px !important;
+	padding: 10px 16px !important;
+	font-size: 14px !important;
+	font-weight: 500 !important;
+	cursor: pointer !important;
+	transition: all 0.2s ease !important;
+	font-family: var(--mantine-font-family) !important;
+}
+
+.gjs-am-modal .gjs-am-add-asset:hover {
+	background: var(--mantine-color-primary-7) !important;
+}
+
+.gjs-am-modal .gjs-am-file-uploader {
+	border: 2px dashed var(--mantine-color-gray-4) !important;
+	border-radius: 8px !important;
+	background: var(--mantine-color-gray-0) !important;
+	padding: 40px 20px !important;
+	text-align: center !important;
+	transition: all 0.2s ease !important;
+}
+
+.gjs-am-modal .gjs-am-file-uploader:hover {
+	border-color: var(--mantine-color-primary-4) !important;
+	background: var(--mantine-color-primary-0) !important;
+}
+
+.gjs-am-modal .gjs-am-file-uploader-form {
+	display: flex !important;
+	flex-direction: column !important;
+	align-items: center !important;
+	gap: 12px !important;
+}
+
+.gjs-am-modal .gjs-am-file-uploader input[type="file"] {
+	display: none !important;
+}
+
+.gjs-am-modal .gjs-am-file-uploader-desc {
+	color: var(--mantine-color-gray-6) !important;
+	font-size: 14px !important;
+	margin: 0 !important;
+	font-family: var(--mantine-font-family) !important;
+}
+
+.gjs-am-modal .gjs-am-file-uploader-btn {
+	background: var(--mantine-color-primary-6) !important;
+	color: white !important;
+	border: none !important;
+	border-radius: 6px !important;
+	padding: 10px 20px !important;
+	font-size: 14px !important;
+	font-weight: 500 !important;
+	cursor: pointer !important;
+	transition: all 0.2s ease !important;
+	font-family: var(--mantine-font-family) !important;
+}
+
+.gjs-am-modal .gjs-am-file-uploader-btn:hover {
+	background: var(--mantine-color-primary-7) !important;
+}
+
+.gjs-am-modal .gjs-am-assets-cont {
+	background: var(--mantine-color-white) !important;
+	border: 1px solid var(--mantine-color-gray-3) !important;
+	border-radius: 8px !important;
+	padding: 16px !important;
+	margin-top: 20px !important;
+}
+
+.gjs-am-modal .gjs-am-assets {
+	display: grid !important;
+	grid-template-columns: repeat(auto-fill, minmax(120px, 1fr)) !important;
+	gap: 12px !important;
+}
+
+.gjs-am-modal .gjs-am-asset {
+	border: 1px solid var(--mantine-color-gray-3) !important;
+	border-radius: 6px !important;
+	padding: 8px !important;
+	background: var(--mantine-color-white) !important;
+	cursor: pointer !important;
+	transition: all 0.2s ease !important;
+}
+
+.gjs-am-modal .gjs-am-asset:hover {
+	border-color: var(--mantine-color-primary-4) !important;
+	box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1) !important;
+}
+
+.gjs-am-modal .gjs-am-asset-image {
+	width: 100% !important;
+	height: 80px !important;
+	object-fit: cover !important;
+	border-radius: 4px !important;
+}
+
+.gjs-am-modal .gjs-am-asset-name {
+	color: var(--mantine-color-gray-7) !important;
+	font-size: 12px !important;
+	margin-top: 8px !important;
+	text-align: center !important;
+	font-family: var(--mantine-font-family) !important;
+}
+
+.gjs-am-modal .gjs-am-asset-remove {
+	background: var(--mantine-color-red-6) !important;
+	color: white !important;
+	border: none !important;
+	border-radius: 4px !important;
+	padding: 4px 8px !important;
+	font-size: 12px !important;
+	cursor: pointer !important;
+	margin-top: 4px !important;
+	transition: all 0.2s ease !important;
+}
+
+.gjs-am-modal .gjs-am-asset-remove:hover {
+	background: var(--mantine-color-red-7) !important;
+}
+
+/* Modal overlay styling */
+.gjs-am-modal-cont {
+	background: rgba(0, 0, 0, 0.5) !important;
+	backdrop-filter: blur(4px) !important;
+}
+
+/* Input field styling */
+.gjs-am-modal input[type="text"],
+.gjs-am-modal input[type="url"] {
+	border: 1px solid var(--mantine-color-gray-4) !important;
+	border-radius: 6px !important;
+	padding: 10px 12px !important;
+	font-size: 14px !important;
+	font-family: var(--mantine-font-family) !important;
+	background: var(--mantine-color-white) !important;
+	color: var(--mantine-color-gray-9) !important;
+	transition: all 0.2s ease !important;
+}
+
+.gjs-am-modal input[type="text"]:focus,
+.gjs-am-modal input[type="url"]:focus {
+	border-color: var(--mantine-color-primary-4) !important;
+	outline: none !important;
+	box-shadow: 0 0 0 2px var(--mantine-color-primary-1) !important;
+}
+
 /* Custom scrollbar for code viewer */
 .mantine-ScrollArea-scrollbar {
 	background: var(--mantine-color-gray-1);
@@ -71,6 +258,94 @@
 
 .mantine-ScrollArea-thumb:hover {
 	background: var(--mantine-color-gray-5);
+}
+
+/* Additional GrapesJS Asset Manager Improvements */
+.gjs-am-modal .gjs-field {
+	margin-bottom: 16px !important;
+}
+
+.gjs-am-modal .gjs-field label {
+	display: block !important;
+	margin-bottom: 6px !important;
+	color: var(--mantine-color-gray-8) !important;
+	font-size: 14px !important;
+	font-weight: 500 !important;
+	font-family: var(--mantine-font-family) !important;
+}
+
+.gjs-am-modal .gjs-am-preview-cont {
+	border: 1px solid var(--mantine-color-gray-3) !important;
+	border-radius: 6px !important;
+	padding: 12px !important;
+	background: var(--mantine-color-gray-0) !important;
+	margin-top: 16px !important;
+}
+
+.gjs-am-modal .gjs-am-preview {
+	max-width: 100% !important;
+	max-height: 200px !important;
+	border-radius: 4px !important;
+}
+
+.gjs-am-modal .gjs-am-meta {
+	background: var(--mantine-color-gray-0) !important;
+	border: 1px solid var(--mantine-color-gray-3) !important;
+	border-radius: 6px !important;
+	padding: 12px !important;
+	margin-top: 12px !important;
+}
+
+.gjs-am-modal .gjs-am-meta-item {
+	color: var(--mantine-color-gray-7) !important;
+	font-size: 13px !important;
+	font-family: var(--mantine-font-family) !important;
+	margin-bottom: 4px !important;
+}
+
+/* Fix for modal positioning */
+.gjs-am-modal {
+	position: fixed !important;
+	top: 50% !important;
+	left: 50% !important;
+	transform: translate(-50%, -50%) !important;
+	max-width: 90vw !important;
+	max-height: 90vh !important;
+	overflow-y: auto !important;
+	z-index: 9999 !important;
+}
+
+/* Ensure proper scrolling in modal */
+.gjs-am-modal .gjs-am-content {
+	max-height: calc(90vh - 80px) !important;
+	overflow-y: auto !important;
+}
+
+/* Style the tabs if present */
+.gjs-am-modal .gjs-am-tabs {
+	border-bottom: 1px solid var(--mantine-color-gray-3) !important;
+	margin-bottom: 20px !important;
+}
+
+.gjs-am-modal .gjs-am-tab {
+	background: none !important;
+	border: none !important;
+	padding: 12px 16px !important;
+	color: var(--mantine-color-gray-6) !important;
+	font-family: var(--mantine-font-family) !important;
+	font-size: 14px !important;
+	cursor: pointer !important;
+	border-bottom: 2px solid transparent !important;
+	transition: all 0.2s ease !important;
+}
+
+.gjs-am-modal .gjs-am-tab:hover {
+	color: var(--mantine-color-gray-9) !important;
+}
+
+.gjs-am-modal .gjs-am-tab.gjs-am-tab-active {
+	color: var(--mantine-color-primary-6) !important;
+	border-bottom-color: var(--mantine-color-primary-6) !important;
 }
 
 /* Sidebar animations */
