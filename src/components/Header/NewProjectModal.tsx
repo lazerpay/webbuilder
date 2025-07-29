@@ -1,5 +1,6 @@
-import { useState } from 'react';
 import { Modal, TextInput, Button, Stack, Group } from '@mantine/core';
+import { useModal } from '../../hooks/useModal';
+import { validateAndCheckProject } from '../../utils/projectValidation';
 
 interface NewProjectModalProps {
   opened: boolean;
@@ -8,47 +9,23 @@ interface NewProjectModalProps {
 }
 
 export function NewProjectModal({ opened, onClose, onConfirm }: NewProjectModalProps) {
-  const [projectName, setProjectName] = useState('');
-  const [error, setError] = useState('');
+  const modal = useModal('');
 
   const handleConfirm = () => {
-    const trimmedName = projectName.trim();
+    const validation = validateAndCheckProject(modal.value);
     
-    if (!trimmedName) {
-      setError('Project name is required');
-      return;
-    }
-    
-    if (trimmedName.length < 2) {
-      setError('Project name must be at least 2 characters');
+    if (!validation.isValid) {
+      modal.setValidationError(validation.error!);
       return;
     }
 
-    // Check if project already exists in localStorage
-    const storageKey = `template_project_${trimmedName.toLowerCase().replace(/[^a-z0-9]/g, '_')}`;
-    const existingProject = localStorage.getItem(storageKey);
-    
-    if (existingProject) {
-      setError('A project with this name already exists. Please choose a different name.');
-      return;
-    }
-
-    // Also check the saved projects list
-    const savedProjects = JSON.parse(localStorage.getItem('saved_template_projects') || '[]');
-    const duplicateProject = savedProjects.find((p: any) => p.name.toLowerCase() === trimmedName.toLowerCase());
-    
-    if (duplicateProject) {
-      setError('A project with this name already exists. Please choose a different name.');
-      return;
-    }
-
-    onConfirm(trimmedName);
-    handleClose();
+    onConfirm(modal.value.trim());
+    modal.close();
+    onClose();
   };
 
   const handleClose = () => {
-    setProjectName('');
-    setError('');
+    modal.close();
     onClose();
   };
 
@@ -70,13 +47,10 @@ export function NewProjectModal({ opened, onClose, onConfirm }: NewProjectModalP
         <TextInput
           label="Project Name"
           placeholder="Enter your project name"
-          value={projectName}
-          onChange={(event) => {
-            setProjectName(event.currentTarget.value);
-            setError('');
-          }}
+          value={modal.value}
+          onChange={(event) => modal.updateValue(event.currentTarget.value)}
           onKeyPress={handleKeyPress}
-          error={error}
+          error={modal.error}
           autoFocus
           required
         />
@@ -90,7 +64,7 @@ export function NewProjectModal({ opened, onClose, onConfirm }: NewProjectModalP
           </Button>
           <Button
             onClick={handleConfirm}
-            disabled={!projectName.trim()}
+            disabled={!modal.value.trim()}
           >
             Create Project
           </Button>

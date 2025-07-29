@@ -1,12 +1,14 @@
 import React, { useState, useEffect } from 'react';
-import { Container, Stack, Notification } from '@mantine/core';
+import { Container, Stack } from '@mantine/core';
 import { CheckCircle } from 'lucide-react';
 import { Header } from '../../components/Header/Header';
 import { UserInfoCard } from '../../components/UserInfoCard/UserInfoCard';
 import { AccountSettingsCard } from '../../components/AccountSettingsCard/AccountSettingsCard';
 import { ActivityStatsCard } from '../../components/ActivityStatsCard/ActivityStatsCard';
+import { NotificationToast } from '../../components/NotificationToast/NotificationToast';
 import { mockProfileData } from '../../profileMockData';
 import { UserProfile, UserPreferences, ProfilePageProps } from '../../types/schema';
+import { useNotification } from '../../hooks/useNotification';
 
 interface ProfilePageExtendedProps extends ProfilePageProps {
   onNavigateToProjects?: () => void;
@@ -15,7 +17,7 @@ interface ProfilePageExtendedProps extends ProfilePageProps {
 
 export function ProfilePage({ onLogout, onNavigateToProjects, onNavigateToHome }: ProfilePageExtendedProps) {
   const [user, setUser] = useState<UserProfile>(mockProfileData.user);
-  const [showSuccessNotification, setShowSuccessNotification] = useState(false);
+  const { notification, showNotification, hideNotification } = useNotification();
 
   // Load user data from localStorage on mount
   useEffect(() => {
@@ -53,8 +55,11 @@ export function ProfilePage({ onLogout, onNavigateToProjects, onNavigateToHome }
         localStorage.setItem('webbuilder_signin', JSON.stringify(parsedInfo));
         
         // Show success notification
-        setShowSuccessNotification(true);
-        setTimeout(() => setShowSuccessNotification(false), 3000);
+        showNotification('Your profile has been successfully updated.', {
+          title: 'Profile Updated!',
+          icon: <CheckCircle size={20} />,
+          color: 'green'
+        });
       } catch (error) {
         console.error('Error updating user data:', error);
       }
@@ -66,8 +71,11 @@ export function ProfilePage({ onLogout, onNavigateToProjects, onNavigateToHome }
     setUser(updatedUser);
     
     // Show success notification
-    setShowSuccessNotification(true);
-    setTimeout(() => setShowSuccessNotification(false), 3000);
+    showNotification('Your preferences have been successfully updated.', {
+      title: 'Preferences Updated!',
+      icon: <CheckCircle size={20} />,
+      color: 'green'
+    });
   };
 
   return (
@@ -101,29 +109,10 @@ export function ProfilePage({ onLogout, onNavigateToProjects, onNavigateToHome }
       </Container>
 
       {/* Success Notification */}
-      {showSuccessNotification && (
-        <div
-          style={{
-            position: 'fixed',
-            top: '20px',
-            right: '20px',
-            zIndex: 10000,
-          }}
-        >
-          <Notification
-            icon={<CheckCircle size={20} />}
-            color="green"
-            title="Profile Updated!"
-            onClose={() => setShowSuccessNotification(false)}
-            style={{
-              boxShadow: '0 10px 40px rgba(0, 0, 0, 0.15)',
-              border: '1px solid rgba(34, 197, 94, 0.2)',
-            }}
-          >
-            Your profile has been successfully updated.
-          </Notification>
-        </div>
-      )}
+      <NotificationToast
+        notification={notification}
+        onClose={hideNotification}
+      />
     </div>
   );
 }

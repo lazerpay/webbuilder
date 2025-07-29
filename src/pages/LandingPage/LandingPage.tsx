@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { Stack, Notification } from '@mantine/core';
+import { Stack } from '@mantine/core';
 import { CheckCircle } from 'lucide-react';
 import { LandingHeader } from '../../components/LandingHeader/LandingHeader';
 import { HeroSection } from '../../components/HeroSection/HeroSection';
@@ -7,6 +7,9 @@ import { FeaturesSection } from '../../components/FeaturesSection/FeaturesSectio
 import { CTASection } from '../../components/CTASection/CTASection';
 import { LandingFooter } from '../../components/LandingFooter/LandingFooter';
 import { SignInModal } from '../../components/SignInModal/SignInModal';
+import { NotificationToast } from '../../components/NotificationToast/NotificationToast';
+import { useToggle } from '../../hooks/useToggle';
+import { useNotification } from '../../hooks/useNotification';
 
 interface LandingPageProps {
   onNavigateToBuilder: () => void;
@@ -14,8 +17,8 @@ interface LandingPageProps {
 
 export function LandingPage({ onNavigateToBuilder }: LandingPageProps) {
   const [isSignedIn, setIsSignedIn] = useState(false);
-  const [signInModalOpened, setSignInModalOpened] = useState(false);
-  const [showSuccessNotification, setShowSuccessNotification] = useState(false);
+  const [signInModalOpened, { setTrue: openSignInModal, setFalse: closeSignInModal }] = useToggle(false);
+  const { notification, showNotification, hideNotification } = useNotification();
 
   // Check if user is signed in on mount
   useEffect(() => {
@@ -43,24 +46,25 @@ export function LandingPage({ onNavigateToBuilder }: LandingPageProps) {
   };
 
   const handleOpenSignInModal = () => {
-    setSignInModalOpened(true);
+    openSignInModal();
   };
 
   const handleCloseSignInModal = () => {
-    setSignInModalOpened(false);
+    closeSignInModal();
   };
 
   const handleShowSuccessNotification = () => {
-    setShowSuccessNotification(true);
-    // Auto-hide notification after 4 seconds
-    setTimeout(() => {
-      setShowSuccessNotification(false);
-    }, 4000);
+    showNotification('You have successfully signed in to WebBuilder.', {
+      title: 'Welcome back!',
+      icon: <CheckCircle size={20} />,
+      color: 'green',
+      duration: 4000
+    });
   };
 
   const handleGetStarted = () => {
     if (!isSignedIn) {
-      setSignInModalOpened(true);
+      openSignInModal();
     } else {
       onNavigateToBuilder();
     }
@@ -99,29 +103,10 @@ export function LandingPage({ onNavigateToBuilder }: LandingPageProps) {
       />
 
       {/* Success Notification */}
-      {showSuccessNotification && (
-        <div
-          style={{
-            position: 'fixed',
-            top: '20px',
-            right: '20px',
-            zIndex: 10000,
-          }}
-        >
-          <Notification
-            icon={<CheckCircle size={20} />}
-            color="green"
-            title="Welcome back!"
-            onClose={() => setShowSuccessNotification(false)}
-            style={{
-              boxShadow: '0 10px 40px rgba(0, 0, 0, 0.15)',
-              border: '1px solid rgba(34, 197, 94, 0.2)',
-            }}
-          >
-            You have successfully signed in to WebBuilder.
-          </Notification>
-        </div>
-      )}
+      <NotificationToast
+        notification={notification}
+        onClose={hideNotification}
+      />
     </Stack>
   );
 }

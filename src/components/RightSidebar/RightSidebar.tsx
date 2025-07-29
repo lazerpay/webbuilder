@@ -20,12 +20,13 @@ export function RightSidebar({ grapesEditor }: RightSidebarProps) {
   const { editorContent, selectedTemplate, fullHtml, templates } = useAppSelector((state) => state.template);
   const { copied, handleCopyStyles } = useCopyStyles(selectedElement);
 
-  // Expand display section when a template is selected (only once)
+  // Expand display section when an element is selected
   useEffect(() => {
-    if (selectedTemplate && !displaySectionExpanded) {
+    if (selectedElement && !displaySectionExpanded) {
+      console.log('Element selected, expanding display section');
       setDisplaySectionExpanded(true);
     }
-  }, [selectedTemplate, displaySectionExpanded]);
+  }, [selectedElement, displaySectionExpanded]);
 
   useEffect(() => {
     if (!grapesEditor) return;

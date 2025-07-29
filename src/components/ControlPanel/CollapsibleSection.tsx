@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Stack, Group, Text, ActionIcon, Collapse } from '@mantine/core';
 import { ChevronDown, ChevronUp } from 'lucide-react';
 
@@ -18,6 +18,11 @@ export function CollapsibleSection({
   disabled = false 
 }: CollapsibleSectionProps) {
   const [opened, setOpened] = useState(defaultOpen);
+
+  // Update opened state when defaultOpen prop changes
+  useEffect(() => {
+    setOpened(defaultOpen);
+  }, [defaultOpen]);
 
   return (
     <div style={{ 

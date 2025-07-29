@@ -1,8 +1,11 @@
-import React, { useState } from 'react';
-import { Card, Stack, Text, Switch, Group, Button, Divider, Notification } from '@mantine/core';
+import React from 'react';
+import { Card, Stack, Text, Switch, Group, Button, Divider } from '@mantine/core';
 import { Settings, Bell, Mail, Shield, CheckCircle } from 'lucide-react';
 import { UserPreferences } from '../../types/schema';
 import { ChangePasswordModal } from '../ChangePasswordModal/ChangePasswordModal';
+import { NotificationToast } from '../NotificationToast/NotificationToast';
+import { useToggle } from '../../hooks/useToggle';
+import { useNotification } from '../../hooks/useNotification';
 
 interface AccountSettingsCardProps {
   preferences: UserPreferences;
@@ -10,8 +13,8 @@ interface AccountSettingsCardProps {
 }
 
 export function AccountSettingsCard({ preferences, onUpdatePreferences }: AccountSettingsCardProps) {
-  const [passwordModalOpened, setPasswordModalOpened] = useState(false);
-  const [showPasswordSuccessNotification, setShowPasswordSuccessNotification] = useState(false);
+  const [passwordModalOpened, { setTrue: openPasswordModal, setFalse: closePasswordModal }] = useToggle(false);
+  const { notification, showNotification, hideNotification } = useNotification();
   const handleNotificationsChange = (checked: boolean) => {
     onUpdatePreferences({
       ...preferences,
@@ -27,12 +30,16 @@ export function AccountSettingsCard({ preferences, onUpdatePreferences }: Accoun
   };
 
   const handlePasswordChanged = () => {
-    setShowPasswordSuccessNotification(true);
-    setTimeout(() => setShowPasswordSuccessNotification(false), 4000);
+    showNotification('Your password has been successfully updated.', {
+      title: 'Password Updated!',
+      icon: <CheckCircle size={20} />,
+      color: 'green',
+      duration: 4000
+    });
   };
 
   const handleChangePasswordClick = () => {
-    setPasswordModalOpened(true);
+    openPasswordModal();
   };
 
   return (
@@ -120,34 +127,15 @@ export function AccountSettingsCard({ preferences, onUpdatePreferences }: Accoun
 
       <ChangePasswordModal
         opened={passwordModalOpened}
-        onClose={() => setPasswordModalOpened(false)}
+        onClose={closePasswordModal}
         onPasswordChanged={handlePasswordChanged}
       />
 
       {/* Password Success Notification */}
-      {showPasswordSuccessNotification && (
-        <div
-          style={{
-            position: 'fixed',
-            top: '20px',
-            right: '20px',
-            zIndex: 10000,
-          }}
-        >
-          <Notification
-            icon={<CheckCircle size={20} />}
-            color="green"
-            title="Password Updated!"
-            onClose={() => setShowPasswordSuccessNotification(false)}
-            style={{
-              boxShadow: '0 10px 40px rgba(0, 0, 0, 0.15)',
-              border: '1px solid rgba(34, 197, 94, 0.2)',
-            }}
-          >
-            Your password has been successfully updated.
-          </Notification>
-        </div>
-      )}
+      <NotificationToast
+        notification={notification}
+        onClose={hideNotification}
+      />
     </Card>
   );
 }
