@@ -9,15 +9,16 @@ import { NotificationToast } from '../../components/NotificationToast/Notificati
 import { mockProfileData } from '../../profileMockData';
 import { UserProfile, UserPreferences, ProfilePageProps } from '../../types/schema';
 import { useNotification } from '../../hooks/useNotification';
+import { useNavigation } from '../../hooks/useNavigation';
 
 interface ProfilePageExtendedProps extends ProfilePageProps {
-  onNavigateToProjects?: () => void;
-  onNavigateToHome?: () => void;
+  // Props removed - using hooks only
 }
 
-export function ProfilePage({ onLogout, onNavigateToProjects, onNavigateToHome }: ProfilePageExtendedProps) {
+export function ProfilePage({}: ProfilePageExtendedProps) {
   const [user, setUser] = useState<UserProfile>(mockProfileData.user);
   const { notification, showNotification, hideNotification } = useNotification();
+  const { navigateToProjects, navigateToHome, logout } = useNavigation();
 
   // Load user data from localStorage on mount
   useEffect(() => {
@@ -82,9 +83,9 @@ export function ProfilePage({ onLogout, onNavigateToProjects, onNavigateToHome }
     <div style={{ minHeight: '100vh', backgroundColor: 'var(--mantine-color-gray-0)' }}>
       <Header 
         onProfile={() => {}} // Already on profile page
-        onMyProjects={onNavigateToProjects}
-        onLogOut={onLogout}
-        onLogoClick={onNavigateToHome}
+        onMyProjects={navigateToProjects}
+        onLogOut={logout}
+        onLogoClick={navigateToHome}
         showProjectActions={false}
         showProjectName={false}
         showSidebarToggle={false}

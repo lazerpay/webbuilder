@@ -3,6 +3,7 @@ import { Stack, Text, Center, Button, Group } from '@mantine/core';
 import { FolderOpen } from 'lucide-react';
 import { Logo } from '../Header/Logo';
 import { SavedProjectsModal } from '../Header/SavedProjectsModal';
+import { projectService } from '../../services/projectService';
 
 interface EmptyStateProps {
   onSelectTemplate?: () => void;
@@ -21,6 +22,10 @@ export function EmptyState({ onSelectTemplate, onProjectLoad }: EmptyStateProps)
 
   const handleProjectSelect = (project: any) => {
     setSavedProjectsModalOpen(false);
+    
+    // Store project as current project in sessionStorage
+    projectService.setCurrentProjectFromSaved(project);
+    
     if (onProjectLoad) {
       onProjectLoad(project);
     }
@@ -38,10 +43,7 @@ export function EmptyState({ onSelectTemplate, onProjectLoad }: EmptyStateProps)
             ta="center"
             style={{ maxWidth: '500px', lineHeight: 1.6 }}
           >
-            {hasSavedProjects 
-              ? "Select a template or choose an existing project to get started"
-              : "Select a template to start editing"
-            }
+            Select a template or choose an existing project to get started
           </Text>
 
           <Group gap="md">

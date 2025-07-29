@@ -109,7 +109,8 @@ export const EditorPanel = forwardRef<EditorPanelRef, EditorPanelProps>(
 				return;
 			}
 
-			if (!selectedTemplate && !editorContent.bodyContent) {
+			// Allow initialization if we have a template OR content OR it's a new project
+			if (!selectedTemplate && !editorContent.bodyContent && selectedTemplate !== 'new-project') {
 				console.log(
 					"Editor initialization skipped - no template or content:",
 					{
@@ -147,6 +148,23 @@ export const EditorPanel = forwardRef<EditorPanelRef, EditorPanelProps>(
 						styles: [
 							"https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css",
 						],
+						// Ensure canvas takes full available space
+						scripts: [],
+						// Remove default margins and padding from body
+						customCss: `
+							body { 
+								margin: 0 !important; 
+								padding: 0 !important; 
+								min-height: 100vh !important;
+								width: 100% !important;
+							}
+							html { 
+								margin: 0 !important; 
+								padding: 0 !important; 
+								height: 100% !important;
+								width: 100% !important;
+							}
+						`,
 					},
 					blockManager: {
 						appendTo: "#blocks",
@@ -314,6 +332,7 @@ export const EditorPanel = forwardRef<EditorPanelRef, EditorPanelProps>(
 					style={{
 						height: "100%",
 						width: "100%",
+						position: "relative",
 					}}
 				/>
 

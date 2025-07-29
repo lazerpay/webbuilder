@@ -8,6 +8,8 @@ export function useNavigation() {
   const navigate = useNavigate();
 
   const navigateToBuilder = () => {
+    // Don't clear current project when navigating to builder
+    // Let the builder decide whether to load existing state or show empty state
     navigate('/builder');
   };
 
@@ -15,11 +17,7 @@ export function useNavigation() {
     navigate('/projects');
   };
 
-  const navigateToEditor = (project?: SavedProject) => {
-    if (project) {
-      // Store the project data to be loaded by the editor
-      sessionStorage.setItem('projectToLoad', JSON.stringify(project));
-    }
+  const navigateToEditor = () => {
     navigate('/builder');
   };
 

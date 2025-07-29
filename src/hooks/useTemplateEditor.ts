@@ -5,6 +5,7 @@ import { useTemplateEditorState } from './useTemplateEditorState';
 import { useProjects } from './useProjects';
 import { useNotification } from './useNotification';
 import { EditorPanelRef } from '../components/EditorPanel/EditorPanel';
+import { projectService } from '../services/projectService';
 
 /**
  * Custom hook that encapsulates all TemplateEditor logic
@@ -17,41 +18,40 @@ export function useTemplateEditor() {
   const { projectExists, saveProject } = useProjects();
   const { notification, showNotification, hideNotification } = useNotification();
 
-  // Load project from session storage if available
+  // Load current project from sessionStorage if available on mount
   useEffect(() => {
-    const projectToLoad = sessionStorage.getItem('projectToLoad');
-    if (projectToLoad) {
-      try {
-        const project = JSON.parse(projectToLoad);
-        console.log('Loading project from session storage:', project);
+    const currentProject = projectService.getCurrentProject();
+    if (currentProject) {
+      console.log('Loading current project from sessionStorage:', currentProject);
 
-        // Set project name first
-        actions.setProjectName(project.name);
+      // Set project name
+      actions.setProjectName(currentProject.projectName || 'Untitled Project');
 
-        // Update editor content with project data
-        dispatch(updateEditorContent({
-          html: project.html,
-          bodyContent: project.html,
-          css: project.css
-        }));
+      // Update editor content with project data
+      dispatch(updateEditorContent(currentProject.editorContent));
 
-        // Set template as selected to trigger editor initialization
+      // Set appropriate template selection
+      if (currentProject.type === 'saved-project') {
         dispatch(selectTemplate('saved-project'));
-
-        // Close sidebar since we're loading a project
-        actions.closeSidebar();
-
-        // Remove from session storage
-        sessionStorage.removeItem('projectToLoad');
-
-        console.log('Project loaded successfully:', project.name);
-      } catch (error) {
-        console.error('Error loading project:', error);
-        // Clean up session storage on error
-        sessionStorage.removeItem('projectToLoad');
+      } else if (currentProject.templateId) {
+        dispatch(selectTemplate(currentProject.templateId));
+      } else {
+        dispatch(selectTemplate('new-project'));
       }
+
+      // Close sidebar since we're loading a project
+      actions.closeSidebar();
+
+      console.log('Current project loaded successfully:', currentProject.projectName);
+    } else {
+      // No current project - initialize with empty state
+      console.log('No current project found, initializing empty state');
+      localStorage.removeItem('template_editor_state');
+      dispatch(selectTemplate(''));
+      dispatch(updateEditorContent({ html: '', bodyContent: '', css: '' }));
+      actions.setProjectName("Untitled Project");
     }
-  }, [dispatch, actions]);
+  }, []); // Empty dependency array - run only on mount
 
   // Poll for the editor instance
   useEffect(() => {
@@ -66,27 +66,24 @@ export function useTemplateEditor() {
     return () => clearInterval(interval);
   }, [state.grapesEditor]); // Removed actions from dependency
 
-  // Open sidebar by default when no template is selected
+  // Open sidebar by default when no template is selected (after initial load)
   useEffect(() => {
     if (!selectedTemplate) {
-      actions.openSidebar();
+      // Add a small delay to ensure the initial project loading is complete
+      const timer = setTimeout(() => {
+        actions.openSidebar();
+      }, 100);
+      return () => clearTimeout(timer);
     }
-  }, [selectedTemplate]); // Removed actions from dependency
-
-  // Clear editor state on component mount to ensure fresh start after logout/login
-  useEffect(() => {
-    const projectToLoad = sessionStorage.getItem('projectToLoad');
-    if (!projectToLoad) {
-      localStorage.removeItem('template_editor_state');
-      dispatch(selectTemplate(''));
-      dispatch(updateEditorContent({ html: '', bodyContent: '', css: '' }));
-      actions.setProjectName("Untitled Project");
-    }
-  }, []); // Empty dependency array - run only on mount
+  }, [selectedTemplate, actions]);
 
   const handleNewProjectConfirm = useCallback((newProjectName: string) => {
     console.log('Creating new project:', newProjectName);
 
+    // Clear sessionStorage first
+    projectService.clearCurrentProject();
+
+    // Clear editor state
     actions.setProjectName(newProjectName);
     localStorage.removeItem('template_editor_state');
     dispatch(selectTemplate(''));
@@ -101,7 +98,8 @@ export function useTemplateEditor() {
       }
     }
 
-    actions.closeSidebar();
+    // Open sidebar to allow template selection
+    actions.openSidebar();
   }, [actions, dispatch, state.grapesEditor]);
 
   const handleSaveProject = useCallback(() => {
@@ -137,6 +135,10 @@ export function useTemplateEditor() {
 
       saveProject(projectData);
 
+      // Update current project in sessionStorage to reflect the saved state
+      projectService.setCurrentProjectFromSaved(projectData);
+      actions.setProjectName(nameToSave);
+
       console.log('Project saved successfully to localStorage');
 
       showNotification(`${nameToSave} has been saved to your browser's local storage.`, {
@@ -158,9 +160,11 @@ export function useTemplateEditor() {
     } catch (error) {
       console.error('Error saving project:', error);
     }
-  }, [templates, selectedTemplate, editorContent, saveProject, showNotification]);
+  }, [templates, selectedTemplate, editorContent, saveProject, showNotification, actions]);
 
   const handleProjectLoad = useCallback((project: any) => {
+    // Store the loaded project as current project in sessionStorage
+    projectService.setCurrentProjectFromSaved(project);
     actions.setProjectName(project.name);
     console.log('Project loaded:', project.name);
   }, [actions]);

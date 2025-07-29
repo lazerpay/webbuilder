@@ -47,6 +47,7 @@ export const fetchTemplateContent = createAsyncThunk(
   }
 );
 
+
 const templateSlice = createSlice({
   name: 'template',
   initialState,
@@ -56,6 +57,11 @@ const templateSlice = createSlice({
     },
     updateEditorContent: (state, action: PayloadAction<{ html: string; bodyContent: string; css: string }>) => {
       state.editorContent = action.payload;
+    },
+    clearCurrentState: (state) => {
+      state.selectedTemplate = null;
+      state.editorContent = { html: '', bodyContent: '', css: '' };
+      state.fullHtml = '';
     },
     clearError: (state) => {
       state.error = null;
@@ -97,5 +103,5 @@ const templateSlice = createSlice({
   }
 });
 
-export const { selectTemplate, updateEditorContent, clearError } = templateSlice.actions;
+export const { selectTemplate, updateEditorContent, clearCurrentState, clearError } = templateSlice.actions;
 export default templateSlice.reducer;

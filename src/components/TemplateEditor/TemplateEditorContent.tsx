@@ -8,20 +8,13 @@ import { EditorPanel } from '../EditorPanel/EditorPanel';
 import { RightSidebar } from '../RightSidebar/RightSidebar';
 import { NotificationToast } from '../NotificationToast/NotificationToast';
 import { useTemplateEditor } from '../../hooks/useTemplateEditor';
+import { useNavigation } from '../../hooks/useNavigation';
 
 interface TemplateEditorContentProps {
-  onNavigateToProjects?: () => void;
-  onNavigateToProfile?: () => void;
-  onNavigateToHome?: () => void;
-  onLogout?: () => void;
+  // Props removed - using hooks only
 }
 
-export function TemplateEditorContent({ 
-  onNavigateToProjects, 
-  onNavigateToProfile, 
-  onNavigateToHome, 
-  onLogout 
-}: TemplateEditorContentProps) {
+export function TemplateEditorContent({}: TemplateEditorContentProps) {
   const {
     state,
     editorRef,
@@ -36,23 +29,23 @@ export function TemplateEditorContent({
     saveDisabled,
   } = useTemplateEditor();
 
+  const { navigateToProjects, navigateToProfile, navigateToHome, logout } = useNavigation();
+
   const handleProfile = useCallback(() => {
-    if (onNavigateToProfile) {
-      onNavigateToProfile();
-    }
-  }, [onNavigateToProfile]);
+    navigateToProfile();
+  }, [navigateToProfile]);
 
   const handleMyProjects = useCallback(() => {
-    if (onNavigateToProjects) {
-      onNavigateToProjects();
-    }
-  }, [onNavigateToProjects]);
+    navigateToProjects();
+  }, [navigateToProjects]);
 
   const handleLogOut = useCallback(() => {
-    if (onLogout) {
-      onLogout();
-    }
-  }, [onLogout]);
+    logout();
+  }, [logout]);
+
+  const handleHome = useCallback(() => {
+    navigateToHome();
+  }, [navigateToHome]);
 
   return (
     <Stack gap={0} h="100vh" style={{ overflow: 'hidden', position: 'relative' }}>
@@ -65,7 +58,7 @@ export function TemplateEditorContent({
         onProfile={handleProfile}
         onMyProjects={handleMyProjects}
         onLogOut={handleLogOut}
-        onLogoClick={onNavigateToHome}
+        onLogoClick={handleHome}
         showSidebarToggle={!state.sidebarOpen}
         saveDisabled={saveDisabled}
       />

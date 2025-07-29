@@ -5,6 +5,7 @@ import { TemplateCard } from '../TemplateCard/TemplateCard';
 import { useAppSelector, useAppDispatch } from '../../hooks/redux';
 import { selectTemplate, fetchTemplates, fetchTemplateContent } from '../../store/templateStore';
 import { Template } from '../../services/templateService';
+import { projectService } from '../../services/projectService';
 
 interface TemplateSidebarProps {
   onTemplateSelect?: () => void;
@@ -25,9 +26,31 @@ export function TemplateSidebar({ onTemplateSelect }: TemplateSidebarProps) {
     dispatch(fetchTemplates());
   }, [dispatch]);
 
-  const handleSelectTemplate = (template: Template) => {
+  const handleSelectTemplate = async (template: Template) => {
+    console.log('Selecting template:', template.name);
     dispatch(selectTemplate(template.id));
-    dispatch(fetchTemplateContent(template));
+    
+    // Fetch template content and store in sessionStorage
+    try {
+      const result = await dispatch(fetchTemplateContent(template));
+      if (fetchTemplateContent.fulfilled.match(result)) {
+        console.log('Template content loaded:', result.payload.content);
+        // Store template as current project in sessionStorage
+        projectService.setCurrentProjectFromTemplate(
+          template.id,
+          template.name,
+          {
+            html: result.payload.content.bodyContent,
+            bodyContent: result.payload.content.bodyContent,
+            css: result.payload.content.css
+          }
+        );
+        console.log('Template stored in sessionStorage');
+      }
+    } catch (error) {
+      console.error('Error loading template:', error);
+    }
+    
     // Close sidebar when template is selected
     if (onTemplateSelect) {
       onTemplateSelect();

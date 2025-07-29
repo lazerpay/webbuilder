@@ -13,15 +13,13 @@ import { useProjects } from '../../hooks/useProjects';
 import { useNotification } from '../../hooks/useNotification';
 import { useNavigation } from '../../hooks/useNavigation';
 import { useToggle } from '../../hooks/useToggle';
+import { projectService } from '../../services/projectService';
 
 interface MyProjectsPageProps {
-  onNavigateToEditor?: (project?: SavedProject) => void;
-  onNavigateToProfile?: () => void;
-  onNavigateToHome?: () => void;
-  onLogout?: () => void;
+  // Props removed - using hooks only
 }
 
-export function MyProjectsPage({ onNavigateToEditor, onNavigateToProfile, onNavigateToHome, onLogout }: MyProjectsPageProps) {
+export function MyProjectsPage({}: MyProjectsPageProps) {
   const { projects, deleteProject, deleteAllProjects } = useProjects();
   const { notification, showNotification, hideNotification } = useNotification();
   const { navigateToEditor, navigateToProfile, navigateToHome, logout } = useNavigation();
@@ -69,47 +67,23 @@ export function MyProjectsPage({ onNavigateToEditor, onNavigateToProfile, onNavi
     closeDeleteAllModal();
   }, [deleteAllProjects, showNotification, closeDeleteAllModal]);
 
-  const handleEditProject = useCallback((project: SavedProject) => {
-    // Use navigation hook if available, otherwise fallback to props
-    if (onNavigateToEditor) {
-      onNavigateToEditor(project);
-    } else {
-      navigateToEditor(project);
-    }
-  }, [onNavigateToEditor, navigateToEditor]);
-
   const handleCreateProject = useCallback(() => {
-    // Use navigation hook if available, otherwise fallback to props
-    if (onNavigateToEditor) {
-      onNavigateToEditor();
-    } else {
-      navigateToEditor();
-    }
-  }, [onNavigateToEditor, navigateToEditor]);
+    // Clear any existing project and navigate to editor for new project
+    projectService.clearCurrentProject();
+    navigateToEditor();
+  }, [navigateToEditor]);
 
   const handleProfile = useCallback(() => {
-    if (onNavigateToProfile) {
-      onNavigateToProfile();
-    } else {
-      navigateToProfile();
-    }
-  }, [onNavigateToProfile, navigateToProfile]);
+    navigateToProfile();
+  }, [navigateToProfile]);
 
   const handleHome = useCallback(() => {
-    if (onNavigateToHome) {
-      onNavigateToHome();
-    } else {
-      navigateToHome();
-    }
-  }, [onNavigateToHome, navigateToHome]);
+    navigateToHome();
+  }, [navigateToHome]);
 
   const handleLogout = useCallback(() => {
-    if (onLogout) {
-      onLogout();
-    } else {
-      logout();
-    }
-  }, [onLogout, logout]);
+    logout();
+  }, [logout]);
 
   return (
     <Stack gap={0} h="100vh" style={{ overflow: 'hidden' }}>
@@ -174,7 +148,6 @@ export function MyProjectsPage({ onNavigateToEditor, onNavigateToProfile, onNavi
                   key={project.name}
                   project={project}
                   onDelete={handleDeleteProject}
-                  onEdit={handleEditProject}
                 />
               ))}
             </SimpleGrid>

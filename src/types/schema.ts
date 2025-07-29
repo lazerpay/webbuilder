@@ -1,4 +1,12 @@
-// ... existing code ...
+// Saved project interface
+export interface SavedProject {
+  name: string;
+  html: string;
+  css: string;
+  savedAt: string;
+  version: string;
+  thumbnailUrl?: string;
+}
 
 // Profile page type definitions
 export interface UserProfile {

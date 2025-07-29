@@ -10,33 +10,19 @@ import { useNavigation } from "./hooks/useNavigation";
 import theme from "./theme";
 
 function AppContent() {
-	const {
-		navigateToBuilder,
-		navigateToProjects,
-		navigateToEditor,
-		navigateToProfile,
-		navigateToHome,
-		logout,
-	} = useNavigation();
-
 	return (
 		<Routes>
 			<Route
 				path="/"
 				element={
-					<LandingPage onNavigateToBuilder={navigateToBuilder} />
+					<LandingPage />
 				}
 			/>
 			<Route
 				path="/builder"
 				element={
 					<ProtectedRoute>
-						<TemplateEditor
-							onNavigateToProjects={navigateToProjects}
-							onNavigateToProfile={navigateToProfile}
-							onNavigateToHome={navigateToHome}
-							onLogout={logout}
-						/>
+						<TemplateEditor />
 					</ProtectedRoute>
 				}
 			/>
@@ -44,12 +30,7 @@ function AppContent() {
 				path="/projects"
 				element={
 					<ProtectedRoute>
-						<MyProjectsPage
-							onNavigateToEditor={navigateToEditor}
-							onNavigateToProfile={navigateToProfile}
-							onNavigateToHome={navigateToHome}
-							onLogout={logout}
-						/>
+						<MyProjectsPage />
 					</ProtectedRoute>
 				}
 			/>
@@ -57,11 +38,7 @@ function AppContent() {
 				path="/profile"
 				element={
 					<ProtectedRoute>
-						<ProfilePage
-							onNavigateToProjects={navigateToProjects}
-							onNavigateToHome={navigateToHome}
-							onLogout={logout}
-						/>
+						<ProfilePage />
 					</ProtectedRoute>
 				}
 			/>

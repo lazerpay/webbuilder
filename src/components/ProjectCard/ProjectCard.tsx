@@ -3,21 +3,25 @@ import { Card, Image, Text, Stack, ActionIcon, Group, Badge } from '@mantine/cor
 import { Trash2, Edit } from 'lucide-react';
 import { SavedProject } from '../../types/schema';
 import { formatProjectDate } from '../../utils/stringFormatters';
+import { projectService } from '../../services/projectService';
+import { useNavigation } from '../../hooks/useNavigation';
 
 interface ProjectCardProps {
   project: SavedProject;
   onDelete: (projectName: string) => void;
-  onEdit: (project: SavedProject) => void;
 }
 
-export function ProjectCard({ project, onDelete, onEdit }: ProjectCardProps) {
+export function ProjectCard({ project, onDelete }: ProjectCardProps) {
+  const { navigateToEditor } = useNavigation();
   const handleDelete = (e: React.MouseEvent) => {
     e.stopPropagation();
     onDelete(project.name);
   };
 
   const handleEdit = () => {
-    onEdit(project);
+    // Store project in sessionStorage and navigate to editor
+    projectService.setCurrentProjectFromSaved(project);
+    navigateToEditor();
   };
 
   return (

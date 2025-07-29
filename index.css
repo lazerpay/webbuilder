@@ -1,103 +1,111 @@
-@import '@mantine/core/styles.css';
-@import url('https://fonts.googleapis.com/css2?family=Figtree:wght@400;500;600;700&display=swap');
-@import url('https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&display=swap');
-@import url('https://fonts.googleapis.com/css2?family=Sour+Gummy:wght@400;500;600;700&display=swap');
-@import url('https://cdn.jsdelivr.net/npm/prismjs@1.29.0/themes/prism-tomorrow.css');
+@import "@mantine/core/styles.css";
+@import url("https://fonts.googleapis.com/css2?family=Figtree:wght@400;500;600;700&display=swap");
+@import url("https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&display=swap");
+@import url("https://fonts.googleapis.com/css2?family=Sour+Gummy:wght@400;500;600;700&display=swap");
+@import url("https://cdn.jsdelivr.net/npm/prismjs@1.29.0/themes/prism-tomorrow.css");
 
 :root {
-  font-synthesis: none;
-  text-rendering: optimizeLegibility;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
+	font-synthesis: none;
+	text-rendering: optimizeLegibility;
+	-webkit-font-smoothing: antialiased;
+	-moz-osx-font-smoothing: grayscale;
 }
 
 #root {
-  margin: auto;
+	margin: auto;
 }
 
 /* GrapesJS Editor Styles */
 .gjs-editor {
-  height: 100% !important;
+	height: 100% !important;
+}
+
+.gjs-one-bg {
+	background: transparent !important;
 }
 
 .gjs-cv-canvas {
-  background: white;
-  width: 100% !important;
-  height: 100% !important;
-  top: 0 !important;
+	background: white;
+	width: 100% !important;
+	height: 100% !important;
+	top: 0 !important;
+}
+
+.gjs-cv-canvas-bg {
+	background: transparent !important;
 }
 
 .gjs-pn-panel {
-  background: var(--mantine-color-gray-0);
+	background: var(--mantine-color-gray-0);
 }
 
 .gjs-pn-btn {
-  color: var(--mantine-color-gray-7);
+	color: var(--mantine-color-gray-7);
 }
 
 .gjs-pn-btn:hover {
-  background: var(--mantine-color-gray-1);
+	background: var(--mantine-color-gray-1);
 }
 
 .gjs-blocks-c {
-  background: var(--mantine-color-white);
+	background: var(--mantine-color-white);
 }
 
 .gjs-block {
-  border: 1px solid var(--mantine-color-gray-3);
-  border-radius: 4px;
+	border: 1px solid var(--mantine-color-gray-3);
+	border-radius: 4px;
 }
 
 .gjs-block:hover {
-  border-color: var(--mantine-color-primary-4);
+	border-color: var(--mantine-color-primary-4);
 }
 
 /* Custom scrollbar for code viewer */
 .mantine-ScrollArea-scrollbar {
-  background: var(--mantine-color-gray-1);
+	background: var(--mantine-color-gray-1);
 }
 
 .mantine-ScrollArea-thumb {
-  background: var(--mantine-color-gray-4);
+	background: var(--mantine-color-gray-4);
 }
 
 .mantine-ScrollArea-thumb:hover {
-  background: var(--mantine-color-gray-5);
+	background: var(--mantine-color-gray-5);
 }
 
 /* Sidebar animations */
 @keyframes slideInLeft {
-  from {
-    transform: translateX(-100%);
-  }
-  to {
-    transform: translateX(0);
-  }
+	from {
+		transform: translateX(-100%);
+	}
+	to {
+		transform: translateX(0);
+	}
 }
 
 @keyframes slideOutLeft {
-  from {
-    transform: translateX(0);
-  }
-  to {
-    transform: translateX(-100%);
-  }
+	from {
+		transform: translateX(0);
+	}
+	to {
+		transform: translateX(-100%);
+	}
 }
 
 @keyframes fadeIn {
-  from {
-    opacity: 0;
-  }
-  to {
-    opacity: 1;
-  }
+	from {
+		opacity: 0;
+	}
+	to {
+		opacity: 1;
+	}
 }
 
 @keyframes fadeOut {
-  from {
-    opacity: 1;
-  }
-  to {
-    opacity: 0;
-  }
+	from {
+		opacity: 1;
+	}
+	to {
+		opacity: 0;
+	}
 }

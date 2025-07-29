@@ -10,15 +10,17 @@ import { SignInModal } from '../../components/SignInModal/SignInModal';
 import { NotificationToast } from '../../components/NotificationToast/NotificationToast';
 import { useToggle } from '../../hooks/useToggle';
 import { useNotification } from '../../hooks/useNotification';
+import { useNavigation } from '../../hooks/useNavigation';
 
 interface LandingPageProps {
-  onNavigateToBuilder: () => void;
+  // Props removed - using hooks only
 }
 
-export function LandingPage({ onNavigateToBuilder }: LandingPageProps) {
+export function LandingPage({}: LandingPageProps) {
   const [isSignedIn, setIsSignedIn] = useState(false);
   const [signInModalOpened, { setTrue: openSignInModal, setFalse: closeSignInModal }] = useToggle(false);
   const { notification, showNotification, hideNotification } = useNotification();
+  const { navigateToBuilder } = useNavigation();
 
   // Check if user is signed in on mount
   useEffect(() => {
@@ -66,13 +68,13 @@ export function LandingPage({ onNavigateToBuilder }: LandingPageProps) {
     if (!isSignedIn) {
       openSignInModal();
     } else {
-      onNavigateToBuilder();
+      navigateToBuilder();
     }
   };
 
   const handleWatchDemo = () => {
     // For demo purposes, just navigate to builder
-    onNavigateToBuilder();
+    navigateToBuilder();
   };
 
   return (
@@ -80,7 +82,7 @@ export function LandingPage({ onNavigateToBuilder }: LandingPageProps) {
       <LandingHeader 
         isSignedIn={isSignedIn}
         onSignIn={handleSignIn}
-        onGoToBuilder={onNavigateToBuilder}
+        onGoToBuilder={navigateToBuilder}
         onOpenSignInModal={handleOpenSignInModal}
       />
       
