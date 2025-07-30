@@ -1,4 +1,4 @@
-# Web Builder - An example website built with Kombai
+# Web Builder - An example app built with Kombai
 
 A fully customisable website template editor - designed for visual editing of HTML templates. Edit texts, images, and layout blocks and get functional HTML, CSS code outputs. This app was entirely built using [Kombai](https://kombai.com/), an AI agent built for frontend tasks, across 5 threads.
 
