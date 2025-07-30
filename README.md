@@ -1,54 +1,39 @@
-# React + TypeScript + Vite
+# Web Builder - An example website built with Kombai
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+A fully customisable website template editor - designed for visual editing of HTML templates. Edit texts, images, and layout blocks and get functional HTML, CSS code outputs. This app was entirely built using [Kombai](https://kombai.com/), an AI agent built for frontend tasks, across 5 threads.
 
-Currently, two official plugins are available:
+## 🛠️ Tech Stack
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react/README.md) uses [Babel](https://babeljs.io/) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+### Frontend Framework
+- **React 19** - Latest React with concurrent features
+- **TypeScript** - Type-safe development
+- **Vite** - Fast build tool and development server
 
-## Expanding the ESLint configuration
+### UI & Styling
+- **Mantine v7** - Modern React components library
+- **Emotion** - CSS-in-JS styling solution
+- **Lucide React** - Beautiful icon library
 
-If you are developing a production application, we recommend updating the configuration to enable type-aware lint rules:
+### State Management
+- **Redux Toolkit (RTK)** - Predictable state container
+- **React Redux** - Official React bindings for Redux
 
-```js
-export default tseslint.config({
-  extends: [
-    // Remove ...tseslint.configs.recommended and replace with this
-    ...tseslint.configs.recommendedTypeChecked,
-    // Alternatively, use this for stricter rules
-    ...tseslint.configs.strictTypeChecked,
-    // Optionally, add this for stylistic rules
-    ...tseslint.configs.stylisticTypeChecked,
-  ],
-  languageOptions: {
-    // other options...
-    parserOptions: {
-      project: ["./tsconfig.node.json", "./tsconfig.app.json"],
-      tsconfigRootDir: import.meta.dirname,
-    },
-  },
-});
-```
+### Routing
+- **React Router v7** - Declarative routing for React
 
-You can also install [eslint-plugin-react-x](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-x) and [eslint-plugin-react-dom](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-dom) for React-specific lint rules:
+### Core Editor
+- **GrapesJS** - Web builder framework for drag-and-drop page building
 
-```js
-// eslint.config.js
-import reactX from "eslint-plugin-react-x";
-import reactDom from "eslint-plugin-react-dom";
+## 👨‍💻 How it was built
 
-export default tseslint.config({
-  plugins: {
-    // Add the react-x and react-dom plugins
-    "react-x": reactX,
-    "react-dom": reactDom,
-  },
-  rules: {
-    // other rules...
-    // Enable its recommended typescript rules
-    ...reactX.configs["recommended-typescript"].rules,
-    ...reactDom.configs.recommended.rules,
-  },
-});
-```
+Here are the loom recordings of some threads used to build this project with Kombai
+
+- https://www.loom.com/share/724e07816216416c996125e7e01cb602?sid=4e0f14bd-64c9-45d8-ace6-9cc15759d8f3
+- https://www.loom.com/share/88ad9a5af6c24b45b38e6249656690e0?sid=89a15bd4-e982-4432-99e7-4533eb122f82
+- https://www.loom.com/share/09648f97f55e43f3a89ee072abefa048?sid=74d55eac-9acf-4081-888f-4582a5c1b69d
+- https://www.loom.com/share/ed7101e2c68b4aae832c60a09f28123a?sid=4c1a1536-9d09-4ee7-943a-b66aa4a68577
+- https://www.loom.com/share/d194b812adff4561bb3ea23e30c25334?sid=e829d672-8649-49d9-b760-f3ed854122e4
+
+An additional thread used for refactoring the code using Kombai
+
+- https://www.loom.com/share/dff60665211a4d158a5d3076f2bf95ae?sid=d87474b2-3709-479f-9461-13b36ebec504
